@@ -1,2 +1,2 @@
 all:
-	g++ -c fibonacci.cc
+	g++ fibonacci.cc
