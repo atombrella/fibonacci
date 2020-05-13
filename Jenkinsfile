@@ -17,7 +17,7 @@ pipeline {
         stage('build and analyze') {
             steps {
                 sh "g++ fibonacci.cc"
-                sh "codesonar analyze ${JOB_NAME} -name ${JOB_NAME} -foreground ${HUB} g++ fibonacci.cc"
+                sh "codesonar analyze ${params.JOB_NAME} -name ${params.JOB_NAME} -foreground ${params.HUB} g++ fibonacci.cc"
                 script {
                     absolutWarningCount(56, 2, true);
                 }
