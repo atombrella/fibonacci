@@ -12,15 +12,17 @@ pipeline {
             name : 'HUB'
         )
     }
-  
+
     stages {
         stage('build and analyze') {
             steps {
                 sh "g++ fibonacci.cc"
                 sh "codesonar analyze ${JOB_NAME} -name ${JOB_NAME} -foreground ${HUB} g++ fibonacci.cc"
             }
+        }
+        stage('codesonar results') {
             steps {
-                status = absoluteWarningCount(56, 2, false)
+                status = absolutWarningCount(56, 2, false)
                 if (status === "MARK-AS-UNSTABLE") {
                     // or sent out emails
                     currentBuild.result = "UNSTABLE"
