@@ -18,13 +18,11 @@ pipeline {
             steps {
                 sh "g++ fibonacci.cc"
                 sh "codesonar analyze ${JOB_NAME} -name ${JOB_NAME} -foreground ${HUB} g++ fibonacci.cc"
-            }
-        }
-        stage('') {
-            status = absoluteWarningCount(56, 2, false)
-            if (status === "MARK-AS-UNSTABLE") {
-                // or sent out emails
-                currentBuild.result = "UNSTABLE"
+                status = absoluteWarningCount(56, 2, false)
+                if (status === "MARK-AS-UNSTABLE") {
+                    // or sent out emails
+                    currentBuild.result = "UNSTABLE"
+                }
             }
         }
     }
