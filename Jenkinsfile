@@ -18,19 +18,15 @@ pipeline {
             steps {
                 sh "g++ fibonacci.cc"
                 sh "codesonar analyze ${JOB_NAME} -name ${JOB_NAME} -foreground ${HUB} g++ fibonacci.cc"
-
-            }
-        }
-        stage('codesonar feedback'){
-            steps {
                 script {
-                    def status = absolutWarningCount(56, 2, false);
-                    if (status === "MARK-AS-UNSTABLE") {
-                        // or sent out emails
-                        currentBuild.result = "UNSTABLE";
-                    }
+                    absolutWarningCount(56, 2, true);
                 }
             }
+        }
+    }
+    post {
+        failure {
+            echo "Hello, World"
         }
     }
 }
