@@ -20,10 +20,11 @@ pipeline {
                 sh "codesonar analyze ${params.JOB_NAME} -name ${params.JOB_NAME} -foreground ${params.HUB} g++ fibonacci.cc"
                 script {
                      codesonar conditions: [
-                         warningCountAbsoluteSpecifiedScoreAndHigher(rankOfWarnings: 56, warningCountThreshold: 0, warrantedResult: 'FAILURE'), 
-                         warningCountAbsoluteSpecifiedScoreAndHigher(rankOfWarnings: 56, warningCountThreshold: 2)
-                     ], 
-                     credentialId: '5c96e7e9-9d4b-40ec-9bad-a77c48042e62', hubAddress: 'ec2-3-65-242-31.eu-central-1.compute.amazonaws.com:7340', 
+                         redAlerts(warrantedResult: 'FAILURE'),
+                         warningCountAbsoluteSpecifiedScoreAndHigher(rankOfWarnings: 0, warningCountThreshold: 0, warrantedResult: 'FAILURE'),
+                         warningCountAbsoluteSpecifiedScoreAndHigher(rankOfWarnings: 0, warningCountThreshold: 2, warrantedResult: 'UNSTABLE'),
+                     ],
+                     credentialId: '5c96e7e9-9d4b-40ec-9bad-a77c48042e62', hubAddress: 'ec2-3-65-242-31.eu-central-1.compute.amazonaws.com:7340',
                      projectName: '${JOB_NAME}', protocol: 'http', visibilityFilter: '3'
                 }
             }
